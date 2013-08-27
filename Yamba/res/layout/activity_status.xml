@@ -23,7 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="@string/status_count" />
+        android:text="@string/status_count"
+        android:textColor="@color/status_ok" />
 
     <EditText
         android:id="@+id/status_status"
@@ -33,7 +34,10 @@
         android:background="@color/fog"
         android:gravity="top|left"
         android:hint="@string/status_hint"
-        android:inputType="textMultiLine|textAutoCorrect" />
+        android:inputType="textMultiLine|textAutoCorrect" >
+
+        <requestFocus />
+    </EditText>
 
     <Button
         android:id="@+id/status_submit"
@@ -41,6 +45,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="@dimen/button_pad"
+        android:enabled="false"
         android:text="@string/status_submit" />
 
 </LinearLayout>

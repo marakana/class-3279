@@ -32,7 +32,8 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/status_label"
             android:layout_gravity="right"
-            android:text="@string/status_count" />
+            android:text="@string/status_count"
+            android:textColor="@color/status_ok" />
 
         <Button
             android:id="@+id/status_submit"
@@ -41,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:enabled="false"
             android:text="@string/status_submit" />
     </RelativeLayout>
 
@@ -52,6 +54,9 @@
         android:background="@color/fog"
         android:gravity="top|left"
         android:hint="@string/status_hint"
-        android:inputType="textMultiLine|textAutoCorrect" />
+        android:inputType="textMultiLine|textAutoCorrect" >
+
+        <requestFocus />
+    </EditText>
 
 </LinearLayout>

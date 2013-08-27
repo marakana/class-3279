@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="label">#008888</color>
-    <color name="accent">#4411ff99</color>
+    <color name="accent">#9911aa99</color>
     <color name="fog">#ccccdddd</color>
     <color name="white">#ffffffff</color>
+    <color name="status_ok">#117777</color>
+    <color name="status_warn">#ee9900</color>
+    <color name="status_err">#dd1100</color>
 </resources>
