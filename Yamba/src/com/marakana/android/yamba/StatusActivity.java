@@ -22,6 +22,12 @@ public class StatusActivity extends Activity {
     }
 
     @Override
+    protected void onRestart() {
+        if (BuildConfig.DEBUG) { Log.d(TAG, "called onRestart"); }
+        super.onRestart();
+    }
+
+    @Override
     protected void onPause() {
         if (BuildConfig.DEBUG) { Log.d(TAG, "called onPause"); }
         super.onPause();
