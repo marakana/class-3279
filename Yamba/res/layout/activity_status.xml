@@ -12,13 +12,11 @@
 
     <TextView
         android:id="@+id/status_label"
+        style="@style/yambaText.Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/status_label"
-        android:textColor="@color/label"
-        android:textSize="36sp"
-        android:textStyle="bold" />
+        android:text="@string/status_label" />
 
     <TextView
         android:id="@+id/status_count"
@@ -39,15 +37,10 @@
 
     <Button
         android:id="@+id/status_submit"
+        style="@style/yambaButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/button_background"
-        android:paddingLeft="@dimen/button_pad"
-        android:paddingRight="@dimen/button_pad"
-        android:text="@string/status_submit"
-        android:textColor="@color/label"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:text="@string/status_submit" />
 
 </LinearLayout>
