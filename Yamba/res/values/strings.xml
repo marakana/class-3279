@@ -3,7 +3,9 @@
 
     <!-- Yamba -->
     <string name="app_name">Yamba</string>
-
+    <string name="about_label">About</string>
+    <string name="about">Yamba!\n    by iRobot, 2013</string>
+    
     <!-- Preferences Activity -->
     <string name="prefs_label">Prefs</string>
     <string name="prefs_header">Yamba prefs</string>

@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.marakana.android.yamba.svc.YambaService;
 
 public class StatusActivity extends Activity  {
@@ -70,6 +72,10 @@ public class StatusActivity extends Activity  {
         switch (item.getItemId()) {
             case R.id.menu_prefs:
                 startActivity(new Intent(this, YambaPrefs.class));
+                break;
+
+            case R.id.menu_about:
+                Toast.makeText(this, R.string.about, Toast.LENGTH_LONG).show();
                 break;
 
             default:
