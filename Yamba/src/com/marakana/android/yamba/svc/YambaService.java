@@ -57,7 +57,7 @@ public class YambaService extends IntentService {
             .setInexactRepeating(
                 AlarmManager.RTC,
                 System.currentTimeMillis() + 100,
-                30 * 1000,
+                3 * 60 * 1000,
                 createPendingIntent(ctxt));
     }
 
@@ -86,8 +86,6 @@ public class YambaService extends IntentService {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "service created");
-
-        startPolling(this);
 
         hdlr = new Hdlr(this);
 

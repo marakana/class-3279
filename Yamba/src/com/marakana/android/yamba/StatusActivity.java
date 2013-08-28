@@ -2,10 +2,13 @@ package com.marakana.android.yamba;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,6 +65,24 @@ public class StatusActivity extends Activity  {
     private TextView viewCount;
     private Button buttonSubmit;
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_prefs:
+                startActivity(new Intent(this, YambaPrefs.class));
+                break;
+
+            default:
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.yamba, menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle state) {
