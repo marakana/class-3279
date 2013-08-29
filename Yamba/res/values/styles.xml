@@ -21,6 +21,14 @@
         <item name="android:textColor">@color/label</item>
     </style>
 
+    <style name="yambaText.Bold" parent="yambaText">
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="yambaText.Medium" parent="yambaText">
+        <item name="android:textSize">18sp</item>
+    </style>
+    
     <style name="yambaText.Label" parent="yambaText">
         <item name="android:textSize">36sp</item>
         <item name="android:textStyle">bold</item>
