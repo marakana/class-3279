@@ -31,6 +31,9 @@ public class YambaApplication extends Application
         uriKey = rez.getString(R.string.prefs_key_uri);
 
         YambaService.startPolling(this);
+
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
