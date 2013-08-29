@@ -12,11 +12,11 @@ public class YambaDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE = "yamba.db";
     public static final int VERSION = 1;
 
-    public static final String TABLE_TIMELINE = "timeline";
-    public static final String COL_ID = "id";
-    public static final String COL_USER = "user";
-    public static final String COL_STATUS = "status";
-    public static final String COL_CREATED_AT = "created_at";
+    static final String TABLE_TIMELINE = "timeline";
+    static final String COL_ID = "id";
+    static final String COL_USER = "user";
+    static final String COL_STATUS = "status";
+    static final String COL_CREATED_AT = "created_at";
 
 
     public YambaDbHelper(Context context) {

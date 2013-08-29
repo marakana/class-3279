@@ -1,5 +1,6 @@
 package com.marakana.android.yamba.svc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlarmManager;
@@ -9,7 +10,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.marakana.android.yamba.BuildConfig;
 import com.marakana.android.yamba.R;
 import com.marakana.android.yamba.YambaApplication;
+import com.marakana.android.yamba.YambaContract;
 import com.marakana.android.yamba.clientlib.YambaClient.Status;
 import com.marakana.android.yamba.clientlib.YambaClientException;
 import com.marakana.android.yamba.data.YambaDbHelper;
@@ -142,38 +143,46 @@ public class YambaService extends IntentService {
     }
 
     private void processTimeline(List<Status> timeline) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        long latest = getLatestTimestamp(db);
-        for (Status status : timeline) {
+        if (null == timeline) { return; }
+
+        long latest = getMaxTimestamp();
+
+        List<ContentValues> rows = new ArrayList<ContentValues>();
+        for (Status status: timeline) {
             long t = status.getCreatedAt().getTime();
             if (t <= latest) { continue; }
+
             ContentValues row = new ContentValues();
-            row.put(YambaDbHelper.COL_ID, Long.valueOf(status.getId()));
-            row.put(YambaDbHelper.COL_CREATED_AT, Long.valueOf(t));
-            row.put(YambaDbHelper.COL_USER, status.getUser());
-            row.put(YambaDbHelper.COL_STATUS, status.getMessage());
-            db.insert(YambaDbHelper.TABLE_TIMELINE, null, row);
+            row.put(YambaContract.Timeline.Columns.ID,
+                    Long.valueOf(status.getId()));
+            row.put(YambaContract.Timeline.Columns.CREATED_AT, Long.valueOf(t));
+            row.put(YambaContract.Timeline.Columns.USER, status.getUser());
+            row.put(YambaContract.Timeline.Columns.STATUS, status.getMessage());
+            rows.add(row);
         }
+
+        getContentResolver().bulkInsert(
+                YambaContract.Timeline.URI,
+                rows.toArray(new ContentValues[rows.size()]));
     }
 
-    private long getLatestTimestamp(SQLiteDatabase db) {
+
+    // select virt1, virt2 from mytable where virt1="hi" order by virt2 asc;
+    // select phys1 as virt1, phys2 as virt2 from mytable where virt1="hi" order by virt2 asc;
+    private long getMaxTimestamp() {
         Cursor c = null;
-        long latest = Long.MIN_VALUE;
+        long mx = Long.MIN_VALUE;
         try {
-            // select max(created_at) from timeline
-            c = db.query(
-                    YambaDbHelper.TABLE_TIMELINE,
-                    new String[] { "max(" + YambaDbHelper.COL_CREATED_AT + ")" },
-                    null,
-                    null,
-                    null,
-                    null,
-                    null);
-            if (c.moveToFirst()) { latest = c.getLong(0); }
+            c = getContentResolver().query(
+                    YambaContract.Timeline.URI,
+                    new String[] { YambaContract.Timeline.Columns.MAX_TIMESTAMP },
+                    null, null, null);
+            if (c.moveToNext()) { mx = c.getLong(0); }
         }
         finally {
             if (null != c) { c.close(); }
         }
-        return latest;
+
+        return mx;
     }
 }

@@ -17,7 +17,7 @@ public class YambaProvider extends ContentProvider {
     private static final String TAG = "PROVIDER";
 
     //  scheme     authority                   path      [id]
-    // content://com.marakana.android.yamba/contactphone/7
+    // content://com.marakana.android.yamba.timeline/timeline/7
     private static final int TIMELINE_ITEM_TYPE = 1;
     private static final int TIMELINE_DIR_TYPE = 2;
     private static final UriMatcher MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
@@ -79,6 +79,9 @@ public class YambaProvider extends ContentProvider {
         }
     }
 
+
+    // URI: content:...../timeline/7
+    // user = "joe"
     @Override
     public Cursor query(Uri uri, String[] proj, String sel, String[] selArgs, String sort) {
         Log.d(TAG, "query");
@@ -99,8 +102,7 @@ public class YambaProvider extends ContentProvider {
         qb.setTables(YambaDbHelper.TABLE_TIMELINE);
         qb.setProjectionMap(PROJ_MAP_TIMELINE.getProjectionMap());
 
-        if (0 < pk) { qb.appendWhere(YambaDbHelper.COL_ID +"=" + pk); }
-
+        if (0 < pk) { qb.appendWhere(YambaDbHelper.COL_ID + "=" + pk); }
         Cursor c = qb.query(getDb(), proj, sel, selArgs, null, null, sort);
 
         c.setNotificationUri(getContext().getContentResolver(), uri);
