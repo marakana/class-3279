@@ -5,8 +5,11 @@ import java.util.List;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -14,9 +17,10 @@ import android.widget.Toast;
 
 import com.marakana.android.yamba.BuildConfig;
 import com.marakana.android.yamba.R;
-import com.marakana.android.yamba.clientlib.YambaClient;
+import com.marakana.android.yamba.YambaApplication;
 import com.marakana.android.yamba.clientlib.YambaClient.Status;
 import com.marakana.android.yamba.clientlib.YambaClientException;
+import com.marakana.android.yamba.data.YambaDbHelper;
 
 
 public class YambaService extends IntentService {
@@ -77,7 +81,7 @@ public class YambaService extends IntentService {
     }
 
 
-    private volatile YambaClient yamba;
+    private volatile YambaDbHelper dbHelper;
     private volatile Hdlr hdlr;
 
     public YambaService() { super(TAG); }
@@ -89,7 +93,7 @@ public class YambaService extends IntentService {
 
         hdlr = new Hdlr(this);
 
-        yamba = new YambaClient("student", "password", "http://yamba.marakana.com/api");
+        dbHelper = new YambaDbHelper(this);
     }
 
     void postComplete(int msg) {
@@ -117,7 +121,7 @@ public class YambaService extends IntentService {
 
         int ret = R.string.post_failed;
         try {
-            yamba.postStatus(status);
+            ((YambaApplication) getApplication()).getYambaClient().postStatus(status);
             ret = R.string.post_succeeded;
         }
         catch (YambaClientException e) {
@@ -129,7 +133,7 @@ public class YambaService extends IntentService {
 
     private void doPoll() {
         List<Status> timeline = null;
-        try { timeline = yamba.getTimeline(20); }
+        try { timeline = ((YambaApplication) getApplication()).getYambaClient().getTimeline(20); }
         catch (YambaClientException e) {
             Log.e(TAG, "Poll failed: ", e);
         }
@@ -138,11 +142,37 @@ public class YambaService extends IntentService {
     }
 
     private void processTimeline(List<Status> timeline) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        long latest = getLatestTimestamp(db);
         for (Status status : timeline) {
-            Log.d(TAG, "Status: "  + status.getId());
-            Log.d(TAG, "    time: "  + status.getCreatedAt());
-            Log.d(TAG, "    user: "  + status.getUser());
-            Log.d(TAG, "    message: "  + status.getMessage());
+            long t = status.getCreatedAt().getTime();
+            if (t <= latest) { continue; }
+            ContentValues row = new ContentValues();
+            row.put(YambaDbHelper.COL_ID, Long.valueOf(status.getId()));
+            row.put(YambaDbHelper.COL_CREATED_AT, Long.valueOf(t));
+            row.put(YambaDbHelper.COL_USER, status.getUser());
+            row.put(YambaDbHelper.COL_STATUS, status.getMessage());
+            db.insert(YambaDbHelper.TABLE_TIMELINE, null, row);
         }
+    }
+
+    private long getLatestTimestamp(SQLiteDatabase db) {
+        Cursor c = null;
+        long latest = Long.MIN_VALUE;
+        try {
+            c = db.query(
+                    YambaDbHelper.TABLE_TIMELINE,
+                    new String[] { "max(" + YambaDbHelper.COL_CREATED_AT + ")" },
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
+            if (c.moveToFirst()) { latest = c.getLong(0); }
+        }
+        finally {
+            if (null != c) { c.close(); }
+        }
+        return latest;
     }
 }

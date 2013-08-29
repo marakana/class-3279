@@ -4,5 +4,5 @@
     <header
         android:fragment="com.marakana.android.yamba.YambaPrefs$ClientPrefs"
         android:title="@string/prefs_header" />
-
+    
 </preference-headers>
