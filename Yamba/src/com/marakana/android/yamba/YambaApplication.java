@@ -32,6 +32,8 @@ public class YambaApplication extends Application
 
         YambaService.startPolling(this);
 
+        // Don't use an anonymous class to handle this event!
+        // http://stackoverflow.com/questions/3799038/onsharedpreferencechanged-not-fired-if-change-occurs-in-separate-activity
         PreferenceManager.getDefaultSharedPreferences(this)
             .registerOnSharedPreferenceChangeListener(this);
     }

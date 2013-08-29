@@ -160,6 +160,7 @@ public class YambaService extends IntentService {
         Cursor c = null;
         long latest = Long.MIN_VALUE;
         try {
+            // select max(created_at) from timeline
             c = db.query(
                     YambaDbHelper.TABLE_TIMELINE,
                     new String[] { "max(" + YambaDbHelper.COL_CREATED_AT + ")" },
