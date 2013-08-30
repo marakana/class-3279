@@ -27,7 +27,11 @@ public class YambaActivity extends Activity {
                 break;
 
             case R.id.menu_prefs:
-                startActivity(new Intent(this, YambaPrefs.class));
+                Intent i = new Intent(this, YambaPrefs.class);
+                i.putExtra(
+                        ":android:show_fragment",
+                        "com.marakana.android.yamba.YambaPrefs$ClientPrefs");
+                startActivity(i);
                 break;
 
             case R.id.menu_about:
@@ -35,7 +39,7 @@ public class YambaActivity extends Activity {
                 break;
 
             default:
-                return false;
+                return super.onOptionsItemSelected(item);
         }
         return true;
     }

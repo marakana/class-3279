@@ -134,11 +134,17 @@ public class YambaService extends IntentService {
             Log.e(TAG, "Poll failed: ", e);
         }
 
-        processTimeline(timeline);
+        int added = processTimeline(timeline);
+        if (0 < added) {
+            if (BuildConfig.DEBUG) { Log.d(TAG, "inserted: " + added); }
+            Intent i = new Intent(YambaContract.TIMELINE_UPDATE_BROADCAST);
+            i.putExtra(YambaContract.TIMELINE_UPDATE_COUNT, added);
+            sendBroadcast(i, YambaContract.TIMELINE_UPDATE_PERMISSION);
+        }
     }
 
-    private void processTimeline(List<Status> timeline) {
-        if (null == timeline) { return; }
+    private int processTimeline(List<Status> timeline) {
+        if (null == timeline) { return 0; }
 
         long latest = getMaxTimestamp();
 
@@ -156,7 +162,7 @@ public class YambaService extends IntentService {
             rows.add(row);
         }
 
-        getContentResolver().bulkInsert(
+        return getContentResolver().bulkInsert(
                 YambaContract.Timeline.URI,
                 rows.toArray(new ContentValues[rows.size()]));
     }

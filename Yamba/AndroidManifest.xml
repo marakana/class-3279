@@ -4,9 +4,20 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <permission
+        android:name="com.marakana.android.yamba.timeline.PERMISSION_READ"
+        android:description="@string/timeline_read_permission_desc"
+        android:label="@string/timeline_read_permission_label"
+        android:protectionLevel="dangerous" />
+    <permission
+        android:name="com.marakana.android.yamba.timeline.PERMISSION_WRITE"
+        android:description="@string/timeline_write_permission_desc"
+        android:label="@string/timeline_write_permission_label"
+        android:protectionLevel="signature" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.marakana.android.yamba.timeline.PERMISSION_READ" />
+    
     <uses-sdk
         android:minSdkVersion="18"
         android:targetSdkVersion="18" />
@@ -31,12 +42,22 @@
             android:label="@string/app_name" />
         <activity android:name="com.marakana.android.yamba.YambaPrefs" />
 
-        <service android:name="com.marakana.android.yamba.svc.YambaService" />
+        <service
+             android:name="com.marakana.android.yamba.svc.YambaService" />
 
         <provider
+            android:readPermission="com.marakana.android.yamba.timeline.PERMISSION_READ"
+            android:writePermission="com.marakana.android.yamba.timeline.PERMISSION_WRITE"
             android:name="com.marakana.android.yamba.data.YambaProvider"
-            android:authorities="com.marakana.android.yamba.timeline"
-            android:exported="false" />
+            android:authorities="com.marakana.android.yamba.timeline" />
+
+        <receiver
+            android:name=".svc.TimelineReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.marakana.android.yamba.action.NEW_STATUS" />
+            </intent-filter>
+        </receiver>
 
         <!--
         <receiver android:name=".svc.BootReceiver" >

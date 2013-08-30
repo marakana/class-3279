@@ -29,5 +29,11 @@
 
     <!-- Timeline Activity -->
     <string name="timeline_label">Timeline</string>
-    
+
+    <!-- Content Provider -->
+    <string name="timeline_read_permission_label">Timeline Read</string>
+    <string name="timeline_read_permission_desc">Allows read on timeline db, and notification of updates</string>
+    <string name="timeline_write_permission_label">Timeline Write</string>
+    <string name="timeline_write_permission_desc">Allows write on timeline db</string>
+
 </resources>

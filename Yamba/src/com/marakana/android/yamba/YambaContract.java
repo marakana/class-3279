@@ -10,6 +10,14 @@ public class YambaContract {
 
     public static final int VERSION = 1;
 
+    // timeline update notifications
+    public static final String TIMELINE_UPDATE_PERMISSION
+        = "com.marakana.android.yamba.timeline.PERMISSION_READ";
+    public static final String TIMELINE_UPDATE_BROADCAST
+        = "com.marakana.android.yamba.action.NEW_STATUS";
+    public static final String TIMELINE_UPDATE_COUNT
+        = "com.marakana.android.yamba.action.NEW_STATUS_COUNT";
+
     public static final String AUTHORITY = "com.marakana.android.yamba.timeline";
 
     public static final Uri BASE_URI = new Uri.Builder()

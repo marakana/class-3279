@@ -4,8 +4,6 @@ package com.marakana.android.yamba;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.marakana.android.yamba.svc.YambaService;
-
 public class TimelineActivity extends YambaActivity {
     private static final String TAG = "TIMEACT";
 
@@ -20,12 +18,12 @@ public class TimelineActivity extends YambaActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        YambaService.stopPolling(this);
+        //YambaService.stopPolling(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        YambaService.startPolling(this);
+        //YambaService.startPolling(this);
     }
 }
