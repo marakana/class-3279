@@ -5,17 +5,9 @@
     android:background="@drawable/background" >
 
     <fragment
-        android:id="@+id/fragment_timeline"
-        android:name="com.marakana.android.yamba.TimelineFragment"
+        android:id="@+id/fragment_details"
+        android:name="com.marakana.android.yamba.TimelineDetailFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- 
-    <FrameLayout
-        android:id="@+id/timeline_detail"
-        android:background="@color/fog"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
-     -->
 </FrameLayout>

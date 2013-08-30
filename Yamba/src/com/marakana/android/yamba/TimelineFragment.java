@@ -3,6 +3,7 @@ package com.marakana.android.yamba;
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -74,6 +76,23 @@ public class TimelineFragment extends ListFragment implements LoaderCallbacks<Cu
     public void onLoaderReset(Loader<Cursor> loader) {
         if (BuildConfig.DEBUG) { Log.d(TAG, "reset loader"); }
         ((SimpleCursorAdapter) getListAdapter()).swapCursor(null);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int pos, long id) {
+        Cursor c = (Cursor) l.getItemAtPosition(pos);
+
+        Intent i = new Intent(getActivity(), TimelineDetailActivity.class);
+        i.putExtra(
+                YambaContract.Timeline.Columns.CREATED_AT,
+                c.getLong(c.getColumnIndex(YambaContract.Timeline.Columns.CREATED_AT)));
+        i.putExtra(
+                YambaContract.Timeline.Columns.USER,
+                c.getString(c.getColumnIndex(YambaContract.Timeline.Columns.USER)));
+        i.putExtra(
+                YambaContract.Timeline.Columns.STATUS,
+                c.getString(c.getColumnIndex(YambaContract.Timeline.Columns.STATUS)));
+        startActivity(i);
     }
 
     @Override

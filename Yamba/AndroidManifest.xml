@@ -40,6 +40,9 @@
         <activity
             android:name="com.marakana.android.yamba.StatusActivity"
             android:label="@string/app_name" />
+        <activity
+            android:name="com.marakana.android.yamba.TimelineDetailActivity"
+            android:label="@string/app_name" />
         <activity android:name="com.marakana.android.yamba.YambaPrefs" />
 
         <service

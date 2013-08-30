@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background" >
+    android:background="@drawable/background"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
 
     <fragment
         android:id="@+id/fragment_timeline"
         android:name="com.marakana.android.yamba.TimelineFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2" />
 
-    <!-- 
     <FrameLayout
         android:id="@+id/timeline_detail"
         android:background="@color/fog"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1" />
-     -->
-</FrameLayout>
+
+</LinearLayout>
