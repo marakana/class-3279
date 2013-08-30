@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.marakana.android.yamba.clientlib.YambaClient;
-import com.marakana.android.yamba.svc.YambaService;
 
 
 public class YambaApplication extends Application
@@ -29,8 +28,6 @@ public class YambaApplication extends Application
         usrKey = rez.getString(R.string.prefs_key_user);
         pwdKey = rez.getString(R.string.prefs_key_pass);
         uriKey = rez.getString(R.string.prefs_key_uri);
-
-        YambaService.startPolling(this);
 
         // Don't use an anonymous class to handle this event!
         // http://stackoverflow.com/questions/3799038/onsharedpreferencechanged-not-fired-if-change-occurs-in-separate-activity

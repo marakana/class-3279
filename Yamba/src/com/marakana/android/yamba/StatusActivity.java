@@ -1,14 +1,9 @@
 package com.marakana.android.yamba;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
-public class StatusActivity extends Activity  {
+public class StatusActivity extends YambaActivity  {
     private static final String TAG = "STATUSACT";
 
 //
@@ -47,29 +42,6 @@ public class StatusActivity extends Activity  {
 //
 //    static Poster poster;
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_prefs:
-                startActivity(new Intent(this, YambaPrefs.class));
-                break;
-
-            case R.id.menu_about:
-                Toast.makeText(this, R.string.about, Toast.LENGTH_LONG).show();
-                break;
-
-            default:
-                return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.yamba, menu);
-        return true;
-    }
 
     @Override
     protected void onCreate(Bundle state) {

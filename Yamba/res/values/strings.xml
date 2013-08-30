@@ -27,4 +27,7 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 
+    <!-- Timeline Activity -->
+    <string name="timeline_label">Timeline</string>
+    
 </resources>
