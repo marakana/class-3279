@@ -21,7 +21,6 @@ import com.marakana.android.yamba.YambaApplication;
 import com.marakana.android.yamba.YambaContract;
 import com.marakana.android.yamba.clientlib.YambaClient.Status;
 import com.marakana.android.yamba.clientlib.YambaClientException;
-import com.marakana.android.yamba.data.YambaDbHelper;
 
 
 public class YambaService extends IntentService {
@@ -82,7 +81,6 @@ public class YambaService extends IntentService {
     }
 
 
-    private volatile YambaDbHelper dbHelper;
     private volatile Hdlr hdlr;
 
     public YambaService() { super(TAG); }
@@ -91,10 +89,7 @@ public class YambaService extends IntentService {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "service created");
-
         hdlr = new Hdlr(this);
-
-        dbHelper = new YambaDbHelper(this);
     }
 
     void postComplete(int msg) {

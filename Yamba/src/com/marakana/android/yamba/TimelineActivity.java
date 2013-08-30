@@ -2,7 +2,10 @@
 package com.marakana.android.yamba;
 
 import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.view.View;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.app.ListActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
@@ -28,6 +31,22 @@ public class TimelineActivity extends ListActivity implements LoaderCallbacks<Cu
         R.id.timeline_row_status,
     };
 
+    static class TimelineBinder implements SimpleCursorAdapter.ViewBinder {
+
+        @Override
+        public boolean setViewValue(View v, Cursor c, int col) {
+            if (R.id.timeline_row_time != v.getId()) { return false; }
+
+            CharSequence s = "long ago";
+            long t = c.getLong(col);
+            if (0 < t) { s = DateUtils.getRelativeTimeSpanString(t); }
+            ((TextView) v).setText(s);
+
+            return true;
+        }
+    }
+
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(
@@ -41,6 +60,7 @@ public class TimelineActivity extends ListActivity implements LoaderCallbacks<Cu
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cur) {
+        // See: http://code.google.com/p/android/issues/detail?id=42945
         ((SimpleCursorAdapter) getListAdapter()).swapCursor(cur);
     }
 
@@ -63,6 +83,7 @@ public class TimelineActivity extends ListActivity implements LoaderCallbacks<Cu
                 TO,
                 0);
         setListAdapter(adapter);
+        adapter.setViewBinder(new TimelineBinder());
 
         getLoaderManager().initLoader(TIMELINE_LOADER, null, this);
     }
